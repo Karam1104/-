@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق احتساب السعرات الحرارية</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- رسالة الترحيب -->
+        <div id="welcomeMessage" class="welcome-message">
+            <h2>أهلاً بك في تطبيق احتساب السعرات الحرارية!</h2>
+            <p>ابدأ بإضافة الأطعمة التي تناولتها لتحسب مجموع السعرات.</p>
+            <button id="closeWelcomeBtn">إغلاق</button>
+        </div>
+
+        <h1>حاسبة السعرات الحرارية</h1>
+        <form id="calorieForm">
+            <label for="foodItem">اسم الطعام:</label>
+            <input type="text" id="foodItem" placeholder="أدخل اسم الطعام" required>
+
+            <label for="calories">السعرات الحرارية:</label>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d4edda; /* لون خلفية مميز (لون أخضر فاتح) */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff; /* خلفية بيضاء للمحتوى */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+// إخفاء رسالة الترحيب عند النقر على زر الإغلاق
+document.getElementById('closeWelcomeBtn').addEventListener('click', function() {
+    document.getElementById('welcomeMessage').style.display = 'none';
+});
+
+document.getElementById('calorieForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // منع إعادة تحميل الصفحة عند الإرسال
+
+    // الحصول على القيم المدخلة من المستخدم
+    const foodItem = document.getElementById('foodItem').value;
+    const calories = parseInt(document.getElementById('calories').value);
+
+    // التأكد من أن القيم المدخلة صحيحة
+    if (foodItem && calories > 0) {
+        // إضافة الطعام إلى قائمة الأطعمة
+        const foodList = document.getElementById('foodList');
+        const listItem = document.createElement('li');
+        listItem.textContent = `${foodItem}: ${calories} سعرات`;
+        foodList.appendChild(listItem);
+
+        // تحديث مجموع السعرات الحرارية
+        const totalCaloriesElement = document.getElementById('totalCalories');
+        const currentTotal = parseInt(totalCaloriesElement.textContent);
+        totalCaloriesElement.textContent = currentTotal + calories;
+
+        // إعادة تعيين الحقول بعد الإرسال
+        document.getElementById('foodItem').value = '';
+        document.getElementById('calories').value = '';
+    } else {
+        alert('يرجى إدخال بيانات صالحة.');
+    }
+});
+
+// إضافة دالة لإعادة تعيين التطبيق
+document.getElementById('resetButton').addEventListener('click', function() {
+    // مسح قائمة الأطعمة
+    document.getElementById('foodList').innerHTML = '';
+    // إعادة تعيين مجموع السعرات الحرارية إلى 0
+    document.getElementById('totalCalories').textContent = '0';
+});
